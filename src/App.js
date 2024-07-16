@@ -3,12 +3,12 @@ import React, {Component} from 'react';
 import Items from './components/item/items'
 import AddItem from './components/addItem/addItem'
 import Total from './components/total/total'
-
+import ProductQuantity from './components/ProductQuantity/ProductQuantity';
 class App extends Component {
   state = {
     items: [
-      {id:1, product:'Pen', price:2},
-      {id:2, product:'Book', price:10}
+      {id:1, product:'Pen', price:2,quantity:1},
+      {id:2, product:'Book', price:10,quantity:1}
     ]
   }
 
@@ -25,8 +25,23 @@ class App extends Component {
     ) : item.id = 1
     console.log(item.id)
     let items = this.state.items
+    item.quantity=1
     items.push(item)
     this.setState({items: items})
+  }
+  addOne = (item)=>{
+    let items = this.state.items
+    item.quantity+=1
+    this.setState({items: items})
+
+  }
+  subOne= (item)=>{
+    let items = this.state.items
+    if(item.quantity>0){
+      item.quantity-=1
+    }
+    this.setState({items: items})
+
   }
 
   render() {
@@ -34,9 +49,10 @@ class App extends Component {
       <div className="container">
         <h1>Product List React App</h1>
         <div className="table">
-          <Items items={this.state.items} del={this.deleteItem}/>
+          <Items items={this.state.items} del={this.deleteItem} add={this.addOne} sub={this.subOne}/>
           <AddItem add={this.addItem}/>
           <Total items={this.state.items}/>
+          
         </div>
       </div>
     )
